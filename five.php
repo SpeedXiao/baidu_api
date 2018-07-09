@@ -32,7 +32,7 @@ extract($_GET, EXTR_OVERWRITE);
                 <li><a href="#">最短距离</a></li>
             </ul>
         </div>
-        <!--<div id="results"></div>-->
+        <div id="results"></div>
     </body>
 </html>
 <script type="text/javascript">

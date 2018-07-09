@@ -137,8 +137,8 @@
         if (browser.versions.ios) {
             window.location.href = "https://itunes.apple.com/cn/app/id452186370?ls=1&mt=8";
             setTimeout(function () {
-                window.location.href = "该App的连接地址";
-                window.location.href = "该App的连接地址";
+                window.location.href = "baidumap://map/direction?origin=34.264642646862,108.95108518068&destination=40.007623,116.360582&mode=driving&src=webapp.navi.yourCompanyName.yourAppName";
+                window.location.href = "baidumap://map/direction?origin=34.264642646862,108.95108518068&destination=40.007623,116.360582&mode=driving&src=webapp.navi.yourCompanyName.yourAppName";
             }, 2000)
         } else if (browser.versions.android) {
 //            window.location.href = "打开该androidApp的连接://openApp";
