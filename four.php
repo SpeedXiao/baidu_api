@@ -16,7 +16,7 @@
                 display:none;
             }
             .anchorBL{
-                height: 20px !important;
+                height: 25px !important;
             }
             #zjmobliestart{font-size:40px;}
             .cyj-download-btn{
@@ -39,13 +39,13 @@
             .show-dialog {
                 display: none;
                 position: fixed;
-                left: 50%;
+                left: 36%;
                 top: 50%;
-                margin-left: -3rem;
-                margin-top: -1rem;
-                width: 6rem;
-                height: 2rem;
-                line-height: 2rem;
+                margin-left: -4rem;
+                margin-top: -4rem;
+                width: 20rem;
+                height: 4rem;
+                line-height: 4rem;
                 text-align: center;
                 color: #6f6f6f;
                 font-size: 16px;
@@ -58,13 +58,12 @@
         </style>
     </head>
     <body>
-        <p id="zjmobliestart">唤醒浙江移动手机营业厅！</p>
-        <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+        <p id="zjmobliestart">唤醒地图APP！</p>
         <div id="l-map"></div>
-        <!--<div id="search" class="form-group"><label type="text" size="20" id="conid" class="form-control"/>浙江省杭州市拱墅区丰潭路380号<a href="five.php?end=浙江省杭州市拱墅区丰潭路380号" class="btn" style="padding: 0" onclick="applink()">->到这里去</a></label></div>-->
-        <div id="search" class="form-group"><label type="text" size="20" id="conid" class="form-control"/>浙江省杭州市拱墅区丰潭路380号<a href="#" class="btn" style="padding: 0">->到这里去</a></label></div>
-    <a href="javascript:void(0);" class="cyj-download-btn">立即下载App</a>
+        <div id="search" class="form-group"><label type="text" size="20" id="conid" class="form-control"/>浙江省杭州市拱墅区丰潭路380号<a href="#" class="btn" style="padding: 0">->立即前往</a></label></div>
+    <!--<a href="javascript:void(0);" class="cyj-download-btn">立即前往</a>-->
     <div class="show-dialog">正在为您跳转，请稍等...</div>
+    <!--<a href="intent://bdapp://map/direction?origin=我的位置&destination=西直门&mode=driving#Intent;scheme=kaola;package=com.kaola;end">打开APP</a>-->
 </body>
 </html>
 <script type="text/javascript">
@@ -93,18 +92,6 @@
         }
     });</script>
 <script type="text/javascript">
-//    function applink() {
-//        window.location = 'zjmobile://platformapi/startapp';
-//        var clickedAt = +new Date;
-//        setTimeout(function () {
-//            !window.document.webkitHidden && setTimeout(function () {
-//                if (+new Date - clickedAt < 2000) {
-//                    window.location = 'https://itunes.apple.com/us/app/zhe-jiang-yi-dong-shou-ji/id898243566#weixin.qq.com';
-//                }
-//            }, 500);
-//        }, 500)
-//
-//    }
     var browser = {
         versions: function () {
             var u = navigator.userAgent,
@@ -129,23 +116,68 @@
         language: (navigator.browserLanguage || navigator.language).toLowerCase()
     };
 
-    document.querySelector(".cyj-download-btn").onclick = function () {
+    document.querySelector(".btn").onclick = function () {
         document.querySelector(".show-dialog").style.display = "block";
         setTimeout(function () {
             document.querySelector(".show-dialog").style.display = "none";
         }, 1000);
         if (browser.versions.ios) {
-            window.location.href = "https://itunes.apple.com/cn/app/id452186370?ls=1&mt=8";
+//            var openUrl = "baidumap://map/direction?origin=我的位置&destination=西直门&mode=driving&src=webapp.navi.yourCompanyName.yourAppName";
+//            var ifr = document.createElement('iframe');
+//            ifr.src = openUrl;
+//            ifr.style.display = 'none';
+//            openApp("baidumap://map/direction?origin=我的位置&destination=西直门&mode=driving&src=webapp.navi.yourCompanyName.yourAppName");
+//            window.location.href = "baidumap://map/direction?origin=我的位置&destination=西直门&mode=driving&src=webapp.navi.yourCompanyName.yourAppName";
+            window.location.href = "baidumap://map/direction?origin=我的位置&destination=西直门&mode=driving&src=webapp.navi.yourCompanyName.yourAppName";
             setTimeout(function () {
-                window.location.href = "baidumap://map/direction?origin=34.264642646862,108.95108518068&destination=40.007623,116.360582&mode=driving&src=webapp.navi.yourCompanyName.yourAppName";
-                window.location.href = "baidumap://map/direction?origin=34.264642646862,108.95108518068&destination=40.007623,116.360582&mode=driving&src=webapp.navi.yourCompanyName.yourAppName";
-            }, 2000)
+                window.location.href = "itms-apps://itunes.apple.com/cn/app/id452186370?mt=8";
+            }, 3000)
         } else if (browser.versions.android) {
-//            window.location.href = "打开该androidApp的连接://openApp";
-            window.location.href = "bdapp://map/direction?region=beijing&origin=39.98871,116.43234&destination=name:西直门&mode=driving";
+
+            openApp("bdapp://map/direction?origin=我的位置&destination=西直门&mode=driving");
+//            window.location.href = "bdapp://map/navi?query=故宫";
             setTimeout(function () {
+                document.body.removeChild(ifr);
                 window.location.href = "http://map.baidu.com/zt/client/index/";
-            }, 2000)
+            }, 3000)
         }
     };
+    function openApp(openUrl, falseUrl, callback) {
+        //检查app是否打开
+        function checkOpen(cb) {
+            var _clickTime = +(new Date());
+            function check(elsTime) {
+                if (elsTime > 3000 || document.hidden || document.webkitHidden) {
+                    cb(1);
+                } else {
+                    cb(0);
+                }
+            }
+            //启动间隔20ms运行的定时器，并检测累计消耗时间是否超过3000ms，超过则结束
+            var _count = 0, intHandle;
+            intHandle = setInterval(function () {
+                _count++;
+                var elsTime = +(new Date()) - _clickTime;
+                if (_count >= 100 || elsTime > 3000) {
+                    clearInterval(intHandle);
+                    check(elsTime);
+                }
+            }, 20);
+        }
+
+        //在iframe 中打开APP
+        var ifr = document.createElement('iframe');
+        ifr.src = openUrl;
+        ifr.style.display = 'none';
+        if (callback) {
+            checkOpen(function (opened) {
+                callback && callback(opened);
+            });
+        }
+
+        document.body.appendChild(ifr);
+        setTimeout(function () {
+            document.body.removeChild(ifr);
+        }, 3000);
+    }
 </script>
